@@ -9,14 +9,19 @@ import {
   Shuffle,
   Trash,
   ArrowCounterClockwise,
+  UploadSimple,
   X,
 } from "@phosphor-icons/react";
-import { categories, icons } from "./data/icons.js";
+import { assetPath, categories, icons } from "./data/icons.js";
 import { filterIcons, scatterStyle } from "./lib/catalog.js";
+import { createSharedCatalogCommit } from "./lib/githubCatalogCommit.js";
 import { applyIconEdits } from "./lib/iconEdits.js";
+import { hydrateSharedIcons, mergeSharedIcons, sharedCatalogUrl } from "./lib/sharedCatalog.js";
+import { prepareUploadEntry } from "./lib/uploadPreparation.js";
 
 const DELETED_KEY = "l-design-icon:deleted";
 const REPLACEMENTS_KEY = "l-design-icon:replacements";
+const brandLogoSrc = assetPath(import.meta.env.BASE_URL, "brand", "lbank-design-logo", "png");
 
 function readStoredJson(key, fallback) {
   try {
@@ -55,6 +60,7 @@ const labels = {
     scatter: "Scatter view", grid: "Grid view", close: "Close preview", downloaded: "Download started",
     copyImage: "Copy image", copied: "Image copied", downloadPng: "Download PNG", description: "A polished 3D icon for interfaces, presentations, and creative projects.",
     replace: "Replace icon", delete: "Delete icon", deleteConfirm: "Delete this icon?", deleted: "Icon deleted", replaced: "Icon replaced", undo: "Undo", invalidImage: "Choose a PNG, JPEG, or WebP image.",
+    upload: "Upload icons", uploadTo: "Upload to", chooseFiles: "Choose images", uploadToken: "GitHub fine-grained token", uploadHint: "The token is used once and is never saved.", publish: "Publish icons", publishing: "Publishing...", cancel: "Cancel", uploadEmpty: "Choose at least one image.", uploadFailed: "Unable to publish icons.", publishStarted: "Publishing started. Icons will appear for everyone after deployment.",
   },
   zh: {
     All: "全部", BuyCrypto: "买币", Spot: "现货", Futures: "合约", Earn: "理财", CopyTrading: "跟单", Campaigns: "活动", Security: "安全",
@@ -63,6 +69,7 @@ const labels = {
     scatter: "散点视图", grid: "网格视图", close: "关闭预览", downloaded: "已开始下载",
     copyImage: "复制图片", copied: "图片已复制", downloadPng: "下载 PNG", description: "适用于界面、演示文稿与创意项目的精致 3D 图标。",
     replace: "替换图标", delete: "删除图标", deleteConfirm: "确定删除这个图标吗？", deleted: "图标已删除", replaced: "图标已替换", undo: "撤销", invalidImage: "请选择 PNG、JPEG 或 WebP 图片。",
+    upload: "上传图标", uploadTo: "上传至", chooseFiles: "选择图片", uploadToken: "GitHub Fine-grained Token", uploadHint: "令牌仅用于本次提交，不会被保存。", publish: "发布图标", publishing: "正在发布...", cancel: "取消", uploadEmpty: "请至少选择一张图片。", uploadFailed: "图标发布失败。", publishStarted: "已开始发布，部署完成后所有访问者都能看到图标。",
   },
 };
 
@@ -105,16 +112,40 @@ export function Prototype() {
   const [deletedIds, setDeletedIds] = useState(() => readStoredJson(DELETED_KEY, []));
   const [replacements, setReplacements] = useState(() => readStoredJson(REPLACEMENTS_KEY, {}));
   const [undoDeleteId, setUndoDeleteId] = useState(null);
+  const [sharedCatalogEntries, setSharedCatalogEntries] = useState([]);
+  const [uploadOpen, setUploadOpen] = useState(false);
+  const [uploadCategory, setUploadCategory] = useState(null);
+  const [uploadEntries, setUploadEntries] = useState([]);
+  const [uploadToken, setUploadToken] = useState("");
+  const [uploadError, setUploadError] = useState("");
+  const [uploadStatus, setUploadStatus] = useState("idle");
   const searchRef = useRef(null);
   const replaceInputRef = useRef(null);
   const replaceTargetRef = useRef(null);
+  const uploadInputRef = useRef(null);
   const t = labels[language];
-  const editedIcons = useMemo(() => applyIconEdits(icons, deletedIds, replacements), [deletedIds, replacements]);
+  const sharedIcons = useMemo(
+    () => hydrateSharedIcons(import.meta.env.BASE_URL, sharedCatalogEntries),
+    [sharedCatalogEntries],
+  );
+  const catalogIcons = useMemo(() => mergeSharedIcons(icons, sharedIcons), [sharedIcons]);
+  const editedIcons = useMemo(() => applyIconEdits(catalogIcons, deletedIds, replacements), [catalogIcons, deletedIds, replacements]);
   const visibleIcons = useMemo(() => filterIcons(editedIcons, category, query), [editedIcons, category, query]);
 
   useEffect(() => {
     if (searchOpen) searchRef.current?.focus();
   }, [searchOpen]);
+
+  useEffect(() => {
+    let active = true;
+    fetch(sharedCatalogUrl(import.meta.env.BASE_URL))
+      .then((response) => response.ok ? response.json() : { icons: [] })
+      .then((catalog) => {
+        if (active && Array.isArray(catalog.icons)) setSharedCatalogEntries(catalog.icons);
+      })
+      .catch(() => {});
+    return () => { active = false; };
+  }, []);
 
   useEffect(() => {
     if (!selected) return undefined;
@@ -190,11 +221,81 @@ export function Prototype() {
     }
   };
 
+  const openUpload = () => {
+    setUploadCategory(category);
+    setUploadEntries([]);
+    setUploadToken("");
+    setUploadError("");
+    setUploadStatus("idle");
+    setUploadOpen(true);
+  };
+
+  const closeUpload = () => {
+    if (uploadStatus === "publishing") return;
+    setUploadOpen(false);
+  };
+
+  const chooseUploadFiles = () => uploadInputRef.current?.click();
+
+  const prepareUploads = async (event) => {
+    const files = [...(event.target.files ?? [])];
+    event.target.value = "";
+    if (!files.length || !uploadCategory) return;
+
+    const results = await Promise.allSettled(
+      files.map((file, index) => prepareUploadEntry(file, uploadCategory, sharedCatalogEntries.length + index)),
+    );
+    const preparedEntries = results.filter((result) => result.status === "fulfilled").map((result) => result.value);
+    const failedCount = results.length - preparedEntries.length;
+    setUploadEntries(preparedEntries);
+    setUploadError(failedCount ? t.invalidImage : "");
+  };
+
+  const updateUploadName = (id, name) => {
+    setUploadEntries((entries) => entries.map((entry) => entry.id === id ? { ...entry, name, nameZh: name } : entry));
+  };
+
+  const publishUploads = async () => {
+    if (!uploadEntries.length) {
+      setUploadError(t.uploadEmpty);
+      return;
+    }
+    if (!uploadToken.trim()) {
+      setUploadError(t.uploadToken);
+      return;
+    }
+
+    setUploadStatus("publishing");
+    setUploadError("");
+    const nextCatalogIcons = [
+      ...sharedCatalogEntries,
+      ...uploadEntries.map(({ content, src, ...icon }) => icon),
+    ];
+
+    try {
+      await createSharedCatalogCommit({
+        token: uploadToken.trim(),
+        entries: uploadEntries,
+        catalog: { icons: nextCatalogIcons },
+      });
+      setSharedCatalogEntries(nextCatalogIcons);
+      setUploadOpen(false);
+      setUploadEntries([]);
+      setUploadToken("");
+      setUploadStatus("idle");
+      setToast(t.publishStarted);
+      window.setTimeout(() => setToast(""), 4200);
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : t.uploadFailed);
+      setUploadStatus("idle");
+    }
+  };
+
   return (
     <main className="icon-platform">
       <header className="topbar">
         <a className="brand" href="#top" aria-label="LBank Design home">
-          <span className="brand-logo"><img alt="" src="/assets/brand/lbank-design-logo.png" /></span>
+          <span className="brand-logo"><img alt="" src={brandLogoSrc} /></span>
           <span>L-Design</span>
         </a>
 
@@ -248,6 +349,11 @@ export function Prototype() {
           <button className="language-button" aria-label={t.language} onClick={() => setLanguage(language === "en" ? "zh" : "en")} type="button">
             {language === "en" ? "简" : "EN"}
           </button>
+          {category !== "All" && (
+            <button aria-label={t.upload} className="upload-button" onClick={openUpload} type="button">
+              <UploadSimple weight="bold" />
+            </button>
+          )}
         </div>
       </header>
 
@@ -283,6 +389,7 @@ export function Prototype() {
       </section>
 
       <input accept="image/png,image/jpeg,image/webp" className="replacement-input" onChange={replaceIcon} ref={replaceInputRef} type="file" />
+      <input accept="image/png,image/jpeg,image/webp" className="replacement-input" multiple onChange={prepareUploads} ref={uploadInputRef} type="file" />
 
       <div className="stage-meta"><strong>{visibleIcons.length}</strong> {t.icons}</div>
 
@@ -316,6 +423,41 @@ export function Prototype() {
                 </div>
               </div>
             </div>
+          </section>
+        </div>
+      )}
+
+      {uploadOpen && (
+        <div className="upload-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && closeUpload()}>
+          <section aria-labelledby="upload-title" aria-modal="true" className="upload-dialog" role="dialog">
+            <button aria-label={t.close} className="upload-close" disabled={uploadStatus === "publishing"} onClick={closeUpload} type="button"><X /></button>
+            <header>
+              <p>{t.uploadTo} {t[uploadCategory]}</p>
+              <h1 id="upload-title">{t.upload}</h1>
+            </header>
+            <button className="file-picker" onClick={chooseUploadFiles} type="button"><UploadSimple weight="bold" />{t.chooseFiles}</button>
+            {uploadEntries.length > 0 && (
+              <div className="upload-list">
+                {uploadEntries.map((entry) => (
+                  <label className="upload-entry" key={entry.id}>
+                    <img alt="" src={entry.src} />
+                    <input aria-label={entry.name} onChange={(event) => updateUploadName(entry.id, event.target.value)} value={entry.name} />
+                  </label>
+                ))}
+              </div>
+            )}
+            <label className="token-field">
+              <span>{t.uploadToken}</span>
+              <input autoComplete="new-password" onChange={(event) => setUploadToken(event.target.value)} placeholder="github_pat_..." type="password" value={uploadToken} />
+              <small>{t.uploadHint}</small>
+            </label>
+            {uploadError && <p className="upload-error" role="alert">{uploadError}</p>}
+            <footer>
+              <button className="upload-cancel" disabled={uploadStatus === "publishing"} onClick={closeUpload} type="button">{t.cancel}</button>
+              <button className="upload-publish" disabled={uploadStatus === "publishing" || !uploadEntries.length || !uploadToken.trim()} onClick={publishUploads} type="button">
+                <UploadSimple weight="bold" />{uploadStatus === "publishing" ? t.publishing : t.publish}
+              </button>
+            </footer>
           </section>
         </div>
       )}
