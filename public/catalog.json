@@ -1,3 +1,284 @@
 {
-  "icons": []
+  "icons": [
+    {
+      "id": "library-medical-coverage",
+      "name": "Medical coverage",
+      "nameZh": "医疗保障",
+      "category": "Security",
+      "filename": "library-medical-coverage.png"
+    },
+    {
+      "id": "library-contactless-card",
+      "name": "Contactless card",
+      "nameZh": "非接触卡",
+      "category": "BuyCrypto",
+      "filename": "library-contactless-card.png"
+    },
+    {
+      "id": "library-vault",
+      "name": "Vault",
+      "nameZh": "保险库",
+      "category": "Security",
+      "filename": "library-vault.png"
+    },
+    {
+      "id": "library-global-payment",
+      "name": "Global payment",
+      "nameZh": "全球支付",
+      "category": "BuyCrypto",
+      "filename": "library-global-payment.png"
+    },
+    {
+      "id": "library-asset-lock",
+      "name": "Asset lock",
+      "nameZh": "资产锁",
+      "category": "Security",
+      "filename": "library-asset-lock.png"
+    },
+    {
+      "id": "library-global-market",
+      "name": "Global market",
+      "nameZh": "全球市场",
+      "category": "Spot",
+      "filename": "library-global-market.png"
+    },
+    {
+      "id": "library-orbit-cube",
+      "name": "Orbit cube",
+      "nameZh": "轨道立方",
+      "category": "Campaigns",
+      "filename": "library-orbit-cube.png"
+    },
+    {
+      "id": "library-mobile-search",
+      "name": "Mobile search",
+      "nameZh": "移动搜索",
+      "category": "Campaigns",
+      "filename": "library-mobile-search.png"
+    },
+    {
+      "id": "library-card-wallet",
+      "name": "Card wallet",
+      "nameZh": "卡包",
+      "category": "BuyCrypto",
+      "filename": "library-card-wallet.png"
+    },
+    {
+      "id": "library-hardware-wallet",
+      "name": "Hardware wallet",
+      "nameZh": "硬件钱包",
+      "category": "Security",
+      "filename": "library-hardware-wallet.png"
+    },
+    {
+      "id": "library-ethereum-gift",
+      "name": "Ethereum gift",
+      "nameZh": "以太坊礼赠",
+      "category": "Campaigns",
+      "filename": "library-ethereum-gift.png"
+    },
+    {
+      "id": "library-global-solana",
+      "name": "Global Solana",
+      "nameZh": "全球 Solana",
+      "category": "Spot",
+      "filename": "library-global-solana.png"
+    },
+    {
+      "id": "library-discount-wallet",
+      "name": "Discount wallet",
+      "nameZh": "折扣钱包",
+      "category": "Campaigns",
+      "filename": "library-discount-wallet.png"
+    },
+    {
+      "id": "library-liquidity-link",
+      "name": "Liquidity link",
+      "nameZh": "流动性链接",
+      "category": "Earn",
+      "filename": "library-liquidity-link.png"
+    },
+    {
+      "id": "library-mining-gem",
+      "name": "Mining gem",
+      "nameZh": "挖矿宝石",
+      "category": "Earn",
+      "filename": "library-mining-gem.png"
+    },
+    {
+      "id": "library-token-pedestal",
+      "name": "Token pedestal",
+      "nameZh": "代币基座",
+      "category": "Campaigns",
+      "filename": "library-token-pedestal.png"
+    },
+    {
+      "id": "library-global-connectivity",
+      "name": "Global connectivity",
+      "nameZh": "全球连接",
+      "category": "Spot",
+      "filename": "library-global-connectivity.png"
+    },
+    {
+      "id": "library-usdt-card",
+      "name": "USDT card",
+      "nameZh": "USDT 卡",
+      "category": "BuyCrypto",
+      "filename": "library-usdt-card.png"
+    },
+    {
+      "id": "library-market-analysis",
+      "name": "Market analysis",
+      "nameZh": "市场分析",
+      "category": "Spot",
+      "filename": "library-market-analysis.png"
+    },
+    {
+      "id": "library-contactless-payment",
+      "name": "Contactless payment",
+      "nameZh": "非接触支付",
+      "category": "BuyCrypto",
+      "filename": "library-contactless-payment.png"
+    },
+    {
+      "id": "library-card-network",
+      "name": "Card network",
+      "nameZh": "卡片网络",
+      "category": "Campaigns",
+      "filename": "library-card-network.png"
+    },
+    {
+      "id": "library-liquidity-bridge",
+      "name": "Liquidity bridge",
+      "nameZh": "流动性桥",
+      "category": "Earn",
+      "filename": "library-liquidity-bridge.png"
+    },
+    {
+      "id": "library-bitcoin-health",
+      "name": "Bitcoin health",
+      "nameZh": "比特币健康",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-health.png"
+    },
+    {
+      "id": "library-market-insights",
+      "name": "Market insights",
+      "nameZh": "市场洞察",
+      "category": "Spot",
+      "filename": "library-market-insights.png"
+    },
+    {
+      "id": "library-liquidity-pool",
+      "name": "Liquidity pool",
+      "nameZh": "流动性池",
+      "category": "Earn",
+      "filename": "library-liquidity-pool.png"
+    },
+    {
+      "id": "library-network-nodes",
+      "name": "Network nodes",
+      "nameZh": "网络节点",
+      "category": "CopyTrading",
+      "filename": "library-network-nodes.png"
+    },
+    {
+      "id": "library-solana-home",
+      "name": "Solana home",
+      "nameZh": "Solana 主页",
+      "category": "Earn",
+      "filename": "library-solana-home.png"
+    },
+    {
+      "id": "library-qr-payment",
+      "name": "QR payment",
+      "nameZh": "二维码支付",
+      "category": "BuyCrypto",
+      "filename": "library-qr-payment.png"
+    },
+    {
+      "id": "library-token-launch",
+      "name": "Token launch",
+      "nameZh": "代币启动",
+      "category": "Campaigns",
+      "filename": "library-token-launch.png"
+    },
+    {
+      "id": "library-ethereum-card",
+      "name": "Ethereum card",
+      "nameZh": "以太坊卡",
+      "category": "Spot",
+      "filename": "library-ethereum-card.png"
+    },
+    {
+      "id": "library-bitcoin-property",
+      "name": "Bitcoin property",
+      "nameZh": "比特币资产",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-property.png"
+    },
+    {
+      "id": "library-secure-document",
+      "name": "Secure document",
+      "nameZh": "安全文档",
+      "category": "Security",
+      "filename": "library-secure-document.png"
+    },
+    {
+      "id": "library-target-allocation",
+      "name": "Target allocation",
+      "nameZh": "目标配置",
+      "category": "Campaigns",
+      "filename": "library-target-allocation.png"
+    },
+    {
+      "id": "library-usdt-fuel",
+      "name": "USDT fuel",
+      "nameZh": "USDT 燃料",
+      "category": "BuyCrypto",
+      "filename": "library-usdt-fuel.png"
+    },
+    {
+      "id": "library-reward-card",
+      "name": "Reward card",
+      "nameZh": "奖励卡",
+      "category": "Campaigns",
+      "filename": "library-reward-card.png"
+    },
+    {
+      "id": "library-savings-jar",
+      "name": "Savings jar",
+      "nameZh": "储蓄罐",
+      "category": "Earn",
+      "filename": "library-savings-jar.png"
+    },
+    {
+      "id": "library-token-link",
+      "name": "Token link",
+      "nameZh": "代币链接",
+      "category": "CopyTrading",
+      "filename": "library-token-link.png"
+    },
+    {
+      "id": "library-market-lounge",
+      "name": "Market lounge",
+      "nameZh": "市场休闲",
+      "category": "Campaigns",
+      "filename": "library-market-lounge.png"
+    },
+    {
+      "id": "library-market-bars",
+      "name": "Market bars",
+      "nameZh": "市场柱状",
+      "category": "Spot",
+      "filename": "library-market-bars.png"
+    },
+    {
+      "id": "library-trading-fee",
+      "name": "Trading fee",
+      "nameZh": "交易费率",
+      "category": "Campaigns",
+      "filename": "library-trading-fee.png"
+    }
+  ]
 }
