@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { categories, icons } from "./icons.js";
+import { assetPath, categories, icons } from "./icons.js";
 
 describe("LBank business categories", () => {
+  it("builds image paths beneath the deployed site base path", () => {
+    expect(assetPath("/wudibao888/", "business-icons", "liquidity-wallet", "png")).toBe(
+      "/wudibao888/assets/business-icons/liquidity-wallet.png",
+    );
+  });
+
   it("assigns every icon to a supported business category", () => {
     expect(icons).toHaveLength(56);
     expect(icons.every((icon) => categories.includes(icon.category) && icon.category !== "All")).toBe(true);
