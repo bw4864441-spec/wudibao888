@@ -355,8 +355,10 @@
 .upload-list { display: grid; gap: 10px; max-height: 220px; overflow-y: auto; padding-right: 4px; }
 .upload-entry { display: grid; grid-template-columns: 58px minmax(0, 1fr); align-items: center; gap: 12px; padding: 8px; border: 1px solid #ececed; border-radius: 8px; background: #fafafb; }
 .upload-entry img { width: 58px; height: 58px; object-fit: contain; border-radius: 6px; background: #fff; }
-.upload-entry input, .token-field input { width: 100%; min-width: 0; height: 42px; padding: 0 12px; border: 1px solid #dcdcdf; border-radius: 6px; color: #27272d; background: #fff; outline: 0; }
-.upload-entry input:focus, .token-field input:focus { border-color: #d5b900; box-shadow: 0 0 0 3px rgba(255, 219, 0, .24); }
+.upload-entry-fields { display: grid; grid-template-columns: minmax(0, 1fr) 128px; gap: 8px; }
+.upload-entry input, .upload-entry select, .token-field input { width: 100%; min-width: 0; height: 42px; padding: 0 12px; border: 1px solid #dcdcdf; border-radius: 6px; color: #27272d; background: #fff; outline: 0; }
+.upload-entry select { cursor: pointer; font-size: 13px; font-weight: 650; }
+.upload-entry input:focus, .upload-entry select:focus, .token-field input:focus { border-color: #d5b900; box-shadow: 0 0 0 3px rgba(255, 219, 0, .24); }
 .token-field { display: grid; gap: 7px; }
 .token-field > span { color: #44444b; font-size: 13px; font-weight: 750; }
 .token-field small { color: #83838a; font-size: 12px; line-height: 1.45; }
@@ -456,6 +458,7 @@
   .upload-backdrop { padding: 12px; }
   .upload-dialog { max-height: calc(100dvh - 24px); padding: 34px 22px 22px; border-radius: 16px; }
   .upload-dialog header h1 { font-size: 28px; }
+  .upload-entry-fields { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 370px) {

@@ -14,6 +14,7 @@ import {
 } from "@phosphor-icons/react";
 import { assetPath, categories, icons } from "./data/icons.js";
 import { filterIcons, scatterStyle } from "./lib/catalog.js";
+import { resolveInitialUploadCategory } from "./lib/categoryRouting.js";
 import { createSharedCatalogCommit } from "./lib/githubCatalogCommit.js";
 import { applyIconEdits } from "./lib/iconEdits.js";
 import { hydrateSharedIcons, mergeSharedIcons, sharedCatalogUrl } from "./lib/sharedCatalog.js";
@@ -243,7 +244,11 @@ export function Prototype() {
     if (!files.length || !uploadCategory) return;
 
     const results = await Promise.allSettled(
-      files.map((file, index) => prepareUploadEntry(file, uploadCategory, sharedCatalogEntries.length + index)),
+      files.map(async (file, index) => {
+        const initialCategory = resolveInitialUploadCategory(uploadCategory, file.name);
+        const entry = await prepareUploadEntry(file, initialCategory, sharedCatalogEntries.length + index);
+        return { ...entry, categoryManuallySelected: false };
+      }),
     );
     const preparedEntries = results.filter((result) => result.status === "fulfilled").map((result) => result.value);
     const failedCount = results.length - preparedEntries.length;
@@ -252,7 +257,19 @@ export function Prototype() {
   };
 
   const updateUploadName = (id, name) => {
-    setUploadEntries((entries) => entries.map((entry) => entry.id === id ? { ...entry, name, nameZh: name } : entry));
+    setUploadEntries((entries) => entries.map((entry) => {
+      if (entry.id !== id) return entry;
+      const suggestedCategory = uploadCategory === "All" && !entry.categoryManuallySelected
+        ? resolveInitialUploadCategory("All", name)
+        : entry.category;
+      return { ...entry, name, nameZh: name, category: suggestedCategory };
+    }));
+  };
+
+  const updateUploadCategory = (id, categoryValue) => {
+    setUploadEntries((entries) => entries.map((entry) => entry.id === id
+      ? { ...entry, category: categoryValue, categoryManuallySelected: true }
+      : entry));
   };
 
   const publishUploads = async () => {
@@ -269,7 +286,7 @@ export function Prototype() {
     setUploadError("");
     const nextCatalogIcons = [
       ...sharedCatalogEntries,
-      ...uploadEntries.map(({ content, src, ...icon }) => icon),
+      ...uploadEntries.map(({ content, src, categoryManuallySelected, ...icon }) => icon),
     ];
 
     try {
@@ -349,11 +366,9 @@ export function Prototype() {
           <button className="language-button" aria-label={t.language} onClick={() => setLanguage(language === "en" ? "zh" : "en")} type="button">
             {language === "en" ? "简" : "EN"}
           </button>
-          {category !== "All" && (
-            <button aria-label={t.upload} className="upload-button" onClick={openUpload} type="button">
-              <UploadSimple weight="bold" />
-            </button>
-          )}
+          <button aria-label={t.upload} className="upload-button" onClick={openUpload} type="button">
+            <UploadSimple weight="bold" />
+          </button>
         </div>
       </header>
 
@@ -439,10 +454,15 @@ export function Prototype() {
             {uploadEntries.length > 0 && (
               <div className="upload-list">
                 {uploadEntries.map((entry) => (
-                  <label className="upload-entry" key={entry.id}>
+                  <div className="upload-entry" key={entry.id}>
                     <img alt="" src={entry.src} />
-                    <input aria-label={entry.name} onChange={(event) => updateUploadName(entry.id, event.target.value)} value={entry.name} />
-                  </label>
+                    <div className="upload-entry-fields">
+                      <input aria-label={entry.name} onChange={(event) => updateUploadName(entry.id, event.target.value)} value={entry.name} />
+                      <select aria-label={t.uploadTo} onChange={(event) => updateUploadCategory(entry.id, event.target.value)} value={entry.category}>
+                        {categories.filter((item) => item !== "All").map((item) => <option key={item} value={item}>{t[item]}</option>)}
+                      </select>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
