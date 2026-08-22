@@ -419,6 +419,149 @@
       "nameZh": "礼盒",
       "category": "Campaigns",
       "filename": "library-gift-box.png"
+    },
+    {
+      "id": "shared-library-knowledge",
+      "name": "Knowledge library",
+      "nameZh": "知识库",
+      "category": "Campaigns",
+      "src": "assets/user-icons/library-knowledge.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-asset-deposit",
+      "name": "Asset deposit",
+      "nameZh": "资产充值",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/asset-deposit.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-campaign-gift",
+      "name": "Campaign gift",
+      "nameZh": "活动礼盒",
+      "category": "Campaigns",
+      "src": "assets/user-icons/campaign-gift.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-dollar-wallet",
+      "name": "Dollar wallet",
+      "nameZh": "美元钱包",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/dollar-wallet.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-verified-security",
+      "name": "Verified security",
+      "nameZh": "安全验证",
+      "category": "Security",
+      "src": "assets/user-icons/verified-security.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-launch-rocket",
+      "name": "Launch rocket",
+      "nameZh": "启动火箭",
+      "category": "Campaigns",
+      "src": "assets/user-icons/launch-rocket.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-trade-refresh",
+      "name": "Trade refresh",
+      "nameZh": "交易刷新",
+      "category": "CopyTrading",
+      "src": "assets/user-icons/trade-refresh.png",
+      "tags": [
+        "CopyTrading",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-global-market",
+      "name": "Global market",
+      "nameZh": "全球市场",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/global-market.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-nft-asset",
+      "name": "NFT asset",
+      "nameZh": "NFT 资产",
+      "category": "Campaigns",
+      "src": "assets/user-icons/nft-asset.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-market-growth-chart",
+      "name": "Market growth",
+      "nameZh": "市场增长",
+      "category": "Spot",
+      "src": "assets/user-icons/market-growth-chart.png",
+      "tags": [
+        "Spot",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-shield-lock",
+      "name": "Shield lock",
+      "nameZh": "安全护盾",
+      "category": "Security",
+      "src": "assets/user-icons/shield-lock.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-asset-inspection",
+      "name": "Asset inspection",
+      "nameZh": "资产检查",
+      "category": "Security",
+      "src": "assets/user-icons/asset-inspection.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-dollar-reserves",
+      "name": "Dollar reserves",
+      "nameZh": "美元储备",
+      "category": "Earn",
+      "src": "assets/user-icons/dollar-reserves.png",
+      "tags": [
+        "Earn",
+        "shared"
+      ]
     }
   ]
 }
