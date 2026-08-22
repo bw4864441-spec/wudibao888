@@ -279,6 +279,146 @@
       "nameZh": "交易费率",
       "category": "Campaigns",
       "filename": "library-trading-fee.png"
+    },
+    {
+      "id": "library-bitcoin-wallet",
+      "name": "Bitcoin wallet",
+      "nameZh": "比特币钱包",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-wallet.png"
+    },
+    {
+      "id": "library-rating-message",
+      "name": "Rating message",
+      "nameZh": "评分消息",
+      "category": "Campaigns",
+      "filename": "library-rating-message.png"
+    },
+    {
+      "id": "library-user-refresh",
+      "name": "User refresh",
+      "nameZh": "用户刷新",
+      "category": "CopyTrading",
+      "filename": "library-user-refresh.png"
+    },
+    {
+      "id": "library-security-keypad",
+      "name": "Security keypad",
+      "nameZh": "安全键盘",
+      "category": "Security",
+      "filename": "library-security-keypad.png"
+    },
+    {
+      "id": "library-market-search",
+      "name": "Market search",
+      "nameZh": "市场搜索",
+      "category": "Spot",
+      "filename": "library-market-search.png"
+    },
+    {
+      "id": "library-message-panel",
+      "name": "Message panel",
+      "nameZh": "消息面板",
+      "category": "Campaigns",
+      "filename": "library-message-panel.png"
+    },
+    {
+      "id": "library-user-profile",
+      "name": "User profile",
+      "nameZh": "用户资料",
+      "category": "CopyTrading",
+      "filename": "library-user-profile.png"
+    },
+    {
+      "id": "library-cloud-security",
+      "name": "Cloud security",
+      "nameZh": "云端安全",
+      "category": "Security",
+      "filename": "library-cloud-security.png"
+    },
+    {
+      "id": "library-market-bars-2",
+      "name": "Market bars",
+      "nameZh": "市场柱状",
+      "category": "Spot",
+      "filename": "library-market-bars-2.png"
+    },
+    {
+      "id": "library-dollar-support",
+      "name": "Dollar support",
+      "nameZh": "美元支持",
+      "category": "BuyCrypto",
+      "filename": "library-dollar-support.png"
+    },
+    {
+      "id": "library-secure-lock",
+      "name": "Secure lock",
+      "nameZh": "安全锁",
+      "category": "Security",
+      "filename": "library-secure-lock.png"
+    },
+    {
+      "id": "library-deposit-arrow",
+      "name": "Deposit arrow",
+      "nameZh": "充值箭头",
+      "category": "BuyCrypto",
+      "filename": "library-deposit-arrow.png"
+    },
+    {
+      "id": "library-bitcoin-coin",
+      "name": "Bitcoin coin",
+      "nameZh": "比特币币种",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-coin.png"
+    },
+    {
+      "id": "library-global-payment-2",
+      "name": "Global payment",
+      "nameZh": "全球支付",
+      "category": "BuyCrypto",
+      "filename": "library-global-payment-2.png"
+    },
+    {
+      "id": "library-send-token",
+      "name": "Send token",
+      "nameZh": "发送代币",
+      "category": "BuyCrypto",
+      "filename": "library-send-token.png"
+    },
+    {
+      "id": "library-currency-exchange",
+      "name": "Currency exchange",
+      "nameZh": "货币兑换",
+      "category": "Spot",
+      "filename": "library-currency-exchange.png"
+    },
+    {
+      "id": "library-server-cluster",
+      "name": "Server cluster",
+      "nameZh": "服务器集群",
+      "category": "Security",
+      "filename": "library-server-cluster.png"
+    },
+    {
+      "id": "library-portfolio-display",
+      "name": "Portfolio display",
+      "nameZh": "资产展示",
+      "category": "Campaigns",
+      "filename": "library-portfolio-display.png"
+    },
+    {
+      "id": "library-ai-asset",
+      "name": "AI asset",
+      "nameZh": "AI 资产",
+      "category": "Campaigns",
+      "filename": "library-ai-asset.png"
+    },
+    {
+      "id": "library-gift-box",
+      "name": "Gift box",
+      "nameZh": "礼盒",
+      "category": "Campaigns",
+      "filename": "library-gift-box.png"
     }
   ]
 }
