@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mergeSharedIcons, sharedCatalogUrl } from "./sharedCatalog.js";
+import { hydrateSharedIcons, mergeSharedIcons, sharedCatalogUrl } from "./sharedCatalog.js";
 
 describe("shared catalog", () => {
   it("merges shared entries without duplicating an existing icon id", () => {
@@ -11,5 +11,11 @@ describe("shared catalog", () => {
 
   it("uses the deployed base path for the public catalog", () => {
     expect(sharedCatalogUrl("/wudibao888/")).toBe("/wudibao888/catalog.json");
+  });
+
+  it("hydrates a shared catalog entry that already carries its asset path", () => {
+    expect(hydrateSharedIcons("/wudibao888/", [{ id: "shared-1", src: "assets/user-icons/icon.png" }])).toEqual([
+      { id: "shared-1", src: "/wudibao888/assets/user-icons/icon.png" },
+    ]);
   });
 });

@@ -3,13 +3,14 @@ export function sharedCatalogUrl(basePath) {
   return `${normalizedBase}catalog.json`;
 }
 
-export function sharedIconSrc(basePath, filename) {
+export function sharedIconSrc(basePath, asset) {
   const normalizedBase = basePath.endsWith("/") ? basePath : `${basePath}/`;
-  return `${normalizedBase}assets/user-icons/${encodeURIComponent(filename)}`;
+  const relativePath = asset?.includes("/") ? asset : `assets/user-icons/${asset}`;
+  return `${normalizedBase}${relativePath.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 export function hydrateSharedIcons(basePath, sharedIcons) {
-  return sharedIcons.map((icon) => ({ ...icon, src: sharedIconSrc(basePath, icon.filename) }));
+  return sharedIcons.map((icon) => ({ ...icon, src: sharedIconSrc(basePath, icon.src || icon.filename) }));
 }
 
 export function mergeSharedIcons(builtInIcons, sharedIcons) {
