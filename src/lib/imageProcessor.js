@@ -102,3 +102,142 @@ export function removeConnectedBackground(imageData, background, tolerance) {
 
   return { data, width, height };
 }
+
+const WEBP_QUALITIES = [0.92, 0.82, 0.72, 0.6, 0.48, 0.36];
+const JPEG_QUALITIES = [0.9, 0.8, 0.7, 0.58, 0.46, 0.34];
+
+export function selectEncodingCandidates(hasTransparency) {
+  const candidates = [
+    { type: "image/png", qualities: [undefined] },
+    { type: "image/webp", qualities: WEBP_QUALITIES },
+  ];
+
+  if (!hasTransparency) {
+    candidates.push({ type: "image/jpeg", qualities: JPEG_QUALITIES });
+  }
+
+  return candidates;
+}
+
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error("浏览器无法生成图片。"));
+      },
+      type,
+      quality,
+    );
+  });
+}
+
+function hasTransparentPixels(imageData) {
+  for (let offset = 3; offset < imageData.data.length; offset += 4) {
+    if (imageData.data[offset] < 255) return true;
+  }
+  return false;
+}
+
+function createCanvas(width, height) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  return canvas;
+}
+
+function drawIntermediate(sourceCanvas) {
+  const maxDimension = Math.max(sourceCanvas.width, sourceCanvas.height);
+  if (maxDimension <= 240) return sourceCanvas;
+
+  const scale = 240 / maxDimension;
+  const canvas = createCanvas(
+    Math.max(1, Math.round(sourceCanvas.width * scale)),
+    Math.max(1, Math.round(sourceCanvas.height * scale)),
+  );
+  const context = canvas.getContext("2d");
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+  context.drawImage(sourceCanvas, 0, 0, canvas.width, canvas.height);
+  return canvas;
+}
+
+export async function processImage(file, options = {}) {
+  const validation = validateImageFile(file);
+  if (!validation.ok) throw new Error(validation.message);
+
+  const { removeBackground = false, tolerance = 28 } = options;
+  let bitmap;
+  let sourceCanvas;
+  let intermediateCanvas;
+
+  try {
+    bitmap = await createImageBitmap(file);
+    sourceCanvas = createCanvas(bitmap.width, bitmap.height);
+    const sourceContext = sourceCanvas.getContext("2d", { willReadFrequently: true });
+    sourceContext.drawImage(bitmap, 0, 0);
+
+    let sourcePixels = sourceContext.getImageData(0, 0, bitmap.width, bitmap.height);
+    let backgroundConfidence = null;
+
+    if (removeBackground && file.type === "image/png") {
+      const background = estimateCornerBackground(sourcePixels.data, bitmap.width, bitmap.height);
+      backgroundConfidence = background.confidence;
+      const cleared = removeConnectedBackground(sourcePixels, background, tolerance);
+      sourcePixels.data.set(cleared.data);
+      sourceContext.putImageData(sourcePixels, 0, 0);
+    }
+
+    const sourceHasTransparency = hasTransparentPixels(sourcePixels);
+    intermediateCanvas = drawIntermediate(sourceCanvas);
+    const targetCanvas = createCanvas(60, 60);
+    const targetContext = targetCanvas.getContext("2d", { willReadFrequently: true });
+
+    if (!sourceHasTransparency) {
+      targetContext.fillStyle = "#ffffff";
+      targetContext.fillRect(0, 0, 60, 60);
+    }
+
+    targetContext.imageSmoothingEnabled = true;
+    targetContext.imageSmoothingQuality = "high";
+    const rect = getContainRect(intermediateCanvas.width, intermediateCanvas.height);
+    targetContext.drawImage(intermediateCanvas, rect.x, rect.y, rect.width, rect.height);
+
+    const outputHasTransparency = hasTransparentPixels(targetContext.getImageData(0, 0, 60, 60));
+    for (const candidate of selectEncodingCandidates(outputHasTransparency)) {
+      for (const quality of candidate.qualities) {
+        const blob = await canvasToBlob(targetCanvas, candidate.type, quality);
+        if (blob.size < 10240) {
+          return {
+            blob,
+            url: URL.createObjectURL(blob),
+            width: 60,
+            height: 60,
+            type: blob.type || candidate.type,
+            bytes: blob.size,
+            backgroundConfidence,
+          };
+        }
+      }
+    }
+
+    throw new Error("无法将这张图片压缩到 10KB 以下。");
+  } catch (error) {
+    if (error instanceof Error && error.message) throw error;
+    throw new Error("图片可能已损坏，无法读取。");
+  } finally {
+    bitmap?.close();
+    if (intermediateCanvas && intermediateCanvas !== sourceCanvas) {
+      intermediateCanvas.width = 0;
+      intermediateCanvas.height = 0;
+    }
+    if (sourceCanvas) {
+      sourceCanvas.width = 0;
+      sourceCanvas.height = 0;
+    }
+  }
+}
+
+export function revokeProcessedImage(result) {
+  if (result?.url) URL.revokeObjectURL(result.url);
+}

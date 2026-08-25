@@ -3,6 +3,7 @@ import {
   estimateCornerBackground,
   getContainRect,
   removeConnectedBackground,
+  selectEncodingCandidates,
   validateImageFile,
 } from "./imageProcessor.js";
 
@@ -77,5 +78,22 @@ describe("removeConnectedBackground", () => {
     );
 
     expect(result.data[(2 * 5 + 2) * 4 + 3]).toBe(255);
+  });
+});
+
+describe("selectEncodingCandidates", () => {
+  it("preserves alpha by excluding JPEG when transparency is present", () => {
+    expect(selectEncodingCandidates(true).map((candidate) => candidate.type)).toEqual([
+      "image/png",
+      "image/webp",
+    ]);
+  });
+
+  it("adds JPEG as a final fallback for opaque output", () => {
+    expect(selectEncodingCandidates(false).map((candidate) => candidate.type)).toEqual([
+      "image/png",
+      "image/webp",
+      "image/jpeg",
+    ]);
   });
 });
