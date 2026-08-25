@@ -6,6 +6,7 @@ import {
   selectEncodingCandidates,
   validateImageFile,
 } from "./imageProcessor.js";
+import { formatBytes, isPngFile } from "../Prototype.jsx";
 
 describe("validateImageFile", () => {
   it("accepts supported raster images", () => {
@@ -95,5 +96,17 @@ describe("selectEncodingCandidates", () => {
       "image/webp",
       "image/jpeg",
     ]);
+  });
+});
+
+describe("image tool display helpers", () => {
+  it("shows background removal only for PNG input", () => {
+    expect(isPngFile({ type: "image/png" })).toBe(true);
+    expect(isPngFile({ type: "image/jpeg" })).toBe(false);
+  });
+
+  it("formats result bytes for the size summary", () => {
+    expect(formatBytes(986)).toBe("986 B");
+    expect(formatBytes(9216)).toBe("9.0 KB");
   });
 });
