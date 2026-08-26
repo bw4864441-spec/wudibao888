@@ -23,6 +23,15 @@ export function formatBytes(bytes) {
   return bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} KB`;
 }
 
+export function shouldWarnLowConfidence(removeBackground, result) {
+  return Boolean(
+    removeBackground
+    && result
+    && result.backgroundConfidence !== null
+    && result.backgroundConfidence < 0.72,
+  );
+}
+
 function formatType(type) {
   return type?.split("/")[1]?.replace("jpeg", "JPG").toUpperCase() || "—";
 }
@@ -160,9 +169,7 @@ export function Prototype() {
   const sourceSize = sourceDimensions
     ? `${sourceDimensions.width} × ${sourceDimensions.height}`
     : "读取中";
-  const lowConfidence = removeBackground
-    && result?.backgroundConfidence !== null
-    && result.backgroundConfidence < 0.72;
+  const lowConfidence = shouldWarnLowConfidence(removeBackground, result);
 
   return (
     <main className="image-tool">

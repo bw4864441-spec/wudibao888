@@ -6,7 +6,7 @@ import {
   selectEncodingCandidates,
   validateImageFile,
 } from "./imageProcessor.js";
-import { formatBytes, isPngFile } from "../Prototype.jsx";
+import { formatBytes, isPngFile, shouldWarnLowConfidence } from "../Prototype.jsx";
 
 describe("validateImageFile", () => {
   it("accepts supported raster images", () => {
@@ -108,5 +108,11 @@ describe("image tool display helpers", () => {
   it("formats result bytes for the size summary", () => {
     expect(formatBytes(986)).toBe("986 B");
     expect(formatBytes(9216)).toBe("9.0 KB");
+  });
+
+  it("does not read confidence while a new result is processing", () => {
+    expect(shouldWarnLowConfidence(true, null)).toBe(false);
+    expect(shouldWarnLowConfidence(true, { backgroundConfidence: 0.5 })).toBe(true);
+    expect(shouldWarnLowConfidence(false, { backgroundConfidence: 0.5 })).toBe(false);
   });
 });
