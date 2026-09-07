@@ -106,7 +106,9 @@ export function removeConnectedBackground(imageData, background, tolerance) {
 const WEBP_QUALITIES = [0.92, 0.82, 0.72, 0.6, 0.48, 0.36];
 const JPEG_QUALITIES = [0.9, 0.8, 0.7, 0.58, 0.46, 0.34];
 
-export function selectEncodingCandidates(hasTransparency) {
+export function selectEncodingCandidates(hasTransparency, { forcePng = false } = {}) {
+  if (forcePng) return [{ type: "image/png", qualities: [undefined] }];
+
   const candidates = [
     { type: "image/png", qualities: [undefined] },
     { type: "image/webp", qualities: WEBP_QUALITIES },
@@ -117,6 +119,10 @@ export function selectEncodingCandidates(hasTransparency) {
   }
 
   return candidates;
+}
+
+export function shouldFillOutputBackground(hasTransparency) {
+  return !hasTransparency;
 }
 
 function canvasToBlob(canvas, type, quality) {
@@ -166,7 +172,7 @@ export async function processImage(file, options = {}) {
   const validation = validateImageFile(file);
   if (!validation.ok) throw new Error(validation.message);
 
-  const { removeBackground = false, tolerance = 28 } = options;
+  const { removeBackground = false, tolerance = 28, forcePng = false } = options;
   let bitmap;
   let sourceCanvas;
   let intermediateCanvas;
@@ -193,7 +199,7 @@ export async function processImage(file, options = {}) {
     const targetCanvas = createCanvas(60, 60);
     const targetContext = targetCanvas.getContext("2d", { willReadFrequently: true });
 
-    if (!sourceHasTransparency) {
+    if (shouldFillOutputBackground(sourceHasTransparency)) {
       targetContext.fillStyle = "#ffffff";
       targetContext.fillRect(0, 0, 60, 60);
     }
@@ -204,7 +210,7 @@ export async function processImage(file, options = {}) {
     targetContext.drawImage(intermediateCanvas, rect.x, rect.y, rect.width, rect.height);
 
     const outputHasTransparency = hasTransparentPixels(targetContext.getImageData(0, 0, 60, 60));
-    for (const candidate of selectEncodingCandidates(outputHasTransparency)) {
+    for (const candidate of selectEncodingCandidates(outputHasTransparency, { forcePng })) {
       for (const quality of candidate.qualities) {
         const blob = await canvasToBlob(targetCanvas, candidate.type, quality);
         if (blob.size < 10240) {
@@ -221,7 +227,11 @@ export async function processImage(file, options = {}) {
       }
     }
 
-    throw new Error("无法将这张图片压缩到 10KB 以下。");
+    throw new Error(
+      forcePng
+        ? "无法将这张图片以 PNG 格式压缩到 10KB 以下。"
+        : "无法将这张图片压缩到 10KB 以下。",
+    );
   } catch (error) {
     if (error instanceof Error && error.message) throw error;
     throw new Error("图片可能已损坏，无法读取。");

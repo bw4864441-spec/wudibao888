@@ -4,6 +4,7 @@ import {
   getContainRect,
   removeConnectedBackground,
   selectEncodingCandidates,
+  shouldFillOutputBackground,
   validateImageFile,
 } from "./imageProcessor.js";
 import { formatBytes, isPngFile, shouldWarnLowConfidence } from "../Prototype.jsx";
@@ -83,6 +84,15 @@ describe("removeConnectedBackground", () => {
 });
 
 describe("selectEncodingCandidates", () => {
+  it("uses only PNG when PNG output is forced", () => {
+    expect(selectEncodingCandidates(false, { forcePng: true })).toEqual([
+      { type: "image/png", qualities: [undefined] },
+    ]);
+    expect(selectEncodingCandidates(true, { forcePng: true })).toEqual([
+      { type: "image/png", qualities: [undefined] },
+    ]);
+  });
+
   it("preserves alpha by excluding JPEG when transparency is present", () => {
     expect(selectEncodingCandidates(true).map((candidate) => candidate.type)).toEqual([
       "image/png",
@@ -96,6 +106,13 @@ describe("selectEncodingCandidates", () => {
       "image/webp",
       "image/jpeg",
     ]);
+  });
+});
+
+describe("shouldFillOutputBackground", () => {
+  it("keeps a transparent WebP target canvas transparent", () => {
+    expect(shouldFillOutputBackground(true)).toBe(false);
+    expect(shouldFillOutputBackground(false)).toBe(true);
   });
 });
 
