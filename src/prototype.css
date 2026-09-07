@@ -356,16 +356,28 @@
 
 .transform-arrow svg { width: 20px; height: 20px; }
 
+.format-panel,
 .background-panel {
-  display: grid;
-  grid-template-columns: minmax(280px, .9fr) minmax(210px, .45fr) minmax(320px, 1fr);
-  align-items: center;
-  margin-top: 22px;
+  margin-top: 14px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 14px;
 }
 
+.format-panel {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(210px, .45fr);
+  align-items: center;
+  margin-top: 22px;
+}
+
+.background-panel {
+  display: grid;
+  grid-template-columns: minmax(280px, .9fr) minmax(210px, .45fr) minmax(320px, 1fr);
+  align-items: center;
+}
+
+.format-panel-heading,
 .background-panel-heading,
 .switch-row,
 .tolerance-control {
@@ -373,6 +385,7 @@
   padding: 24px 28px;
 }
 
+.format-panel-heading,
 .background-panel-heading {
   display: flex;
   align-items: center;
@@ -390,7 +403,9 @@
 }
 
 .control-icon svg { width: 19px; height: 19px; }
+.format-panel h2,
 .background-panel h2 { margin: 0; font-size: 16px; }
+.format-panel p,
 .background-panel p { margin: 7px 0 0; color: #8b8b90; font-size: 12px; }
 .background-panel.is-disabled { grid-template-columns: 1fr; }
 
@@ -513,6 +528,7 @@ input:focus-visible {
   .compare-grid { grid-template-columns: 1fr; gap: 54px; }
   .original-card .preview-stage { height: 320px; }
   .transform-arrow { top: 50%; transform: translate(-50%, -50%) rotate(90deg); }
+  .format-panel { grid-template-columns: 1fr 1fr; }
   .background-panel { grid-template-columns: 1fr 1fr; }
   .background-panel-heading { grid-column: 1 / -1; border-bottom: 1px solid var(--soft-line); }
   .switch-row { border-left: 0; }
@@ -537,10 +553,13 @@ input:focus-visible {
   .file-meta-item strong { font-size: 12px; }
   .download-button { height: 56px; margin: 0 8px 8px; width: calc(100% - 16px); }
   .transform-arrow { width: 42px; height: 42px; }
+  .format-panel,
   .background-panel { grid-template-columns: 1fr; }
+  .format-panel-heading,
   .background-panel-heading,
   .switch-row,
   .tolerance-control { min-height: auto; padding: 20px; }
+  .format-panel-heading { border-bottom: 1px solid var(--soft-line); }
   .background-panel-heading { grid-column: auto; }
   .switch-row { min-height: 76px; border: 0; border-bottom: 1px solid var(--soft-line); }
   .tolerance-control { min-height: 112px; }

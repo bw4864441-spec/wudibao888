@@ -42,7 +42,7 @@ function outputExtension(type) {
   return "png";
 }
 
-function outputFilename(file, type) {
+export function outputFilename(file, type) {
   const base = file.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9\u4e00-\u9fff_-]+/g, "-");
   return `${base || "l-design-image"}-60x60.${outputExtension(type)}`;
 }
@@ -66,6 +66,7 @@ export function Prototype() {
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [forcePng, setForcePng] = useState(false);
   const [removeBackground, setRemoveBackground] = useState(false);
   const [tolerance, setTolerance] = useState(28);
 
@@ -85,7 +86,7 @@ export function Prototype() {
       setResult(null);
 
       try {
-        const nextResult = await processImage(file, { removeBackground, tolerance });
+        const nextResult = await processImage(file, { forcePng, removeBackground, tolerance });
         if (sequence !== requestSequence.current) {
           revokeProcessedImage(nextResult);
           return;
@@ -96,6 +97,7 @@ export function Prototype() {
         if (sequence !== requestSequence.current) return;
         const knownMessages = [
           "无法将这张图片压缩到 10KB 以下。",
+          "无法将这张图片以 PNG 格式压缩到 10KB 以下。",
           "浏览器无法生成图片。",
         ];
         setError(
@@ -108,7 +110,7 @@ export function Prototype() {
     }, 120);
 
     return () => window.clearTimeout(timer);
-  }, [file, removeBackground, tolerance]);
+  }, [file, forcePng, removeBackground, tolerance]);
 
   const acceptFile = (nextFile) => {
     const validation = validateImageFile(nextFile);
@@ -122,6 +124,7 @@ export function Prototype() {
     setFile(nextFile);
     setSourceUrl(URL.createObjectURL(nextFile));
     setSourceDimensions(null);
+    setForcePng(false);
     setRemoveBackground(false);
     setTolerance(28);
     setError("");
@@ -136,6 +139,7 @@ export function Prototype() {
     setResult(null);
     setStatus("idle");
     setError("");
+    setForcePng(false);
     setRemoveBackground(false);
     setTolerance(28);
     if (inputRef.current) inputRef.current.value = "";
@@ -289,6 +293,25 @@ export function Prototype() {
                 </button>
               </article>
             </div>
+
+            <section className="format-panel" aria-label="输出格式设置">
+              <div className="format-panel-heading">
+                <span className="control-icon"><ImageSquare weight="bold" /></span>
+                <div>
+                  <h2>输出格式</h2>
+                  <p>开启后将图片转换为 PNG</p>
+                </div>
+              </div>
+              <label className="switch-row">
+                <span>转换为 PNG</span>
+                <input
+                  checked={forcePng}
+                  onChange={(event) => setForcePng(event.target.checked)}
+                  type="checkbox"
+                />
+                <span className="switch" aria-hidden="true"><span /></span>
+              </label>
+            </section>
 
             <section className={`background-panel ${!isPngFile(file) ? "is-disabled" : ""}`}>
               <div className="background-panel-heading">

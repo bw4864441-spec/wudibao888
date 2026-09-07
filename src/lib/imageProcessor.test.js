@@ -7,7 +7,12 @@ import {
   shouldFillOutputBackground,
   validateImageFile,
 } from "./imageProcessor.js";
-import { formatBytes, isPngFile, shouldWarnLowConfidence } from "../Prototype.jsx";
+import {
+  formatBytes,
+  isPngFile,
+  outputFilename,
+  shouldWarnLowConfidence,
+} from "../Prototype.jsx";
 
 describe("validateImageFile", () => {
   it("accepts supported raster images", () => {
@@ -117,6 +122,16 @@ describe("shouldFillOutputBackground", () => {
 });
 
 describe("image tool display helpers", () => {
+  it("downloads a converted WebP with a PNG extension", () => {
+    expect(outputFilename({ name: "产品 主图.webp" }, "image/png"))
+      .toBe("产品-主图-60x60.png");
+  });
+
+  it("keeps automatic WebP output labeled as WebP", () => {
+    expect(outputFilename({ name: "asset.jpg" }, "image/webp"))
+      .toBe("asset-60x60.webp");
+  });
+
   it("shows background removal only for PNG input", () => {
     expect(isPngFile({ type: "image/png" })).toBe(true);
     expect(isPngFile({ type: "image/jpeg" })).toBe(false);
