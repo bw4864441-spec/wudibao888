@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
+  decodeImageSource,
   estimateCornerBackground,
   getContainRect,
   removeConnectedBackground,
@@ -15,17 +16,74 @@ import {
 } from "../Prototype.jsx";
 
 describe("validateImageFile", () => {
-  it("accepts supported raster images", () => {
-    expect(validateImageFile({ type: "image/png" })).toEqual({ ok: true });
-    expect(validateImageFile({ type: "image/jpeg" })).toEqual({ ok: true });
-    expect(validateImageFile({ type: "image/webp" })).toEqual({ ok: true });
+  it.each([
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/gif",
+    "image/bmp",
+    "image/avif",
+    "image/x-icon",
+  ])("accepts %s raster input", (type) => {
+    expect(validateImageFile({ type, name: "asset.bin" })).toEqual({ ok: true });
   });
 
-  it("rejects unsupported files before decoding", () => {
-    expect(validateImageFile({ type: "image/svg+xml" })).toEqual({
-      ok: false,
-      message: "仅支持 PNG、JPG、JPEG 或 WebP 图片。",
+  it.each(["sample.gif", "sample.bmp", "sample.avif", "sample.ico"])(
+    "accepts %s when the operating system omits MIME",
+    (name) => expect(validateImageFile({ type: "", name })).toEqual({ ok: true }),
+  );
+
+  it("rejects SVG and excluded image formats before decoding", () => {
+    const rejected = { ok: false, message: "仅支持浏览器可读取的常见位图格式。" };
+    expect(validateImageFile({ type: "image/svg+xml", name: "asset.svg" })).toEqual(rejected);
+    expect(validateImageFile({ type: "image/heic", name: "asset.heic" })).toEqual(rejected);
+    expect(validateImageFile({ type: "image/tiff", name: "asset.tiff" })).toEqual(rejected);
+    expect(validateImageFile({ type: "text/plain", name: "asset.txt" })).toEqual(rejected);
+  });
+});
+
+describe("decodeImageSource", () => {
+  it("prefers createImageBitmap and closes the bitmap during cleanup", async () => {
+    const close = vi.fn();
+    const bitmap = { width: 320, height: 180, close };
+    const decoded = await decodeImageSource({}, {
+      createBitmap: vi.fn().mockResolvedValue(bitmap),
     });
+
+    expect(decoded).toMatchObject({ source: bitmap, width: 320, height: 180 });
+    decoded.cleanup();
+    expect(close).toHaveBeenCalledOnce();
+  });
+
+  it("falls back to an HTML image and revokes its object URL", async () => {
+    const revokeObjectURL = vi.fn();
+    const image = { naturalWidth: 48, naturalHeight: 32, decode: vi.fn().mockResolvedValue() };
+    const decoded = await decodeImageSource({}, {
+      createBitmap: vi.fn().mockRejectedValue(new Error("unsupported")),
+      createObjectURL: vi.fn(() => "blob:fallback"),
+      revokeObjectURL,
+      ImageCtor: vi.fn(function ImageCtor() { return image; }),
+    });
+
+    expect(image.src).toBe("blob:fallback");
+    expect(decoded).toMatchObject({ source: image, width: 48, height: 32 });
+    decoded.cleanup();
+    expect(revokeObjectURL).toHaveBeenCalledWith("blob:fallback");
+  });
+
+  it("returns the agreed message and cleans up when both decoders fail", async () => {
+    const revokeObjectURL = vi.fn();
+    const image = { decode: vi.fn().mockRejectedValue(new Error("bad image")) };
+
+    await expect(decodeImageSource({}, {
+      createBitmap: vi.fn().mockRejectedValue(new Error("unsupported")),
+      createObjectURL: vi.fn(() => "blob:broken"),
+      revokeObjectURL,
+      ImageCtor: vi.fn(function ImageCtor() { return image; }),
+    })).rejects.toThrow(
+      "当前浏览器无法读取此图片格式，请换用 PNG、JPG、WebP、GIF、BMP 或 AVIF。",
+    );
+    expect(revokeObjectURL).toHaveBeenCalledWith("blob:broken");
   });
 });
 

@@ -1,9 +1,42 @@
-export const SUPPORTED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
+export const SUPPORTED_TYPES = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/pjpeg",
+  "image/webp",
+  "image/gif",
+  "image/bmp",
+  "image/x-ms-bmp",
+  "image/avif",
+  "image/x-icon",
+  "image/vnd.microsoft.icon",
+]);
 
-const UNSUPPORTED_MESSAGE = "仅支持 PNG、JPG、JPEG 或 WebP 图片。";
+const SUPPORTED_EXTENSIONS = new Set([
+  "png",
+  "jpg",
+  "jpeg",
+  "webp",
+  "gif",
+  "bmp",
+  "avif",
+  "ico",
+]);
+
+const UNSUPPORTED_MESSAGE = "仅支持浏览器可读取的常见位图格式。";
+export const BROWSER_DECODE_MESSAGE =
+  "当前浏览器无法读取此图片格式，请换用 PNG、JPG、WebP、GIF、BMP 或 AVIF。";
+
+function fileExtension(name = "") {
+  return name.toLowerCase().match(/\.([^.]+)$/)?.[1] || "";
+}
 
 export function validateImageFile(file) {
-  return file && SUPPORTED_TYPES.has(file.type)
+  const supportedMime = file && SUPPORTED_TYPES.has(file.type);
+  const supportedUntypedFile = file
+    && !file.type
+    && SUPPORTED_EXTENSIONS.has(fileExtension(file.name));
+
+  return supportedMime || supportedUntypedFile
     ? { ok: true }
     : { ok: false, message: UNSUPPORTED_MESSAGE };
 }
@@ -168,26 +201,93 @@ function drawIntermediate(sourceCanvas) {
   return canvas;
 }
 
+function waitForImageLoad(image) {
+  if (typeof image.decode === "function") return image.decode();
+
+  return new Promise((resolve, reject) => {
+    image.onload = resolve;
+    image.onerror = () => reject(new Error(BROWSER_DECODE_MESSAGE));
+  });
+}
+
+export async function decodeImageSource(file, adapters = {}) {
+  const createBitmap = adapters.createBitmap ?? globalThis.createImageBitmap;
+
+  if (typeof createBitmap === "function") {
+    try {
+      const bitmap = await createBitmap(file);
+      return {
+        source: bitmap,
+        width: bitmap.width,
+        height: bitmap.height,
+        cleanup: () => bitmap.close?.(),
+      };
+    } catch {
+      // Fall through to the image-element decoder for broader browser compatibility.
+    }
+  }
+
+  const createObjectURL = adapters.createObjectURL
+    ?? globalThis.URL?.createObjectURL?.bind(globalThis.URL);
+  const revokeObjectURL = adapters.revokeObjectURL
+    ?? globalThis.URL?.revokeObjectURL?.bind(globalThis.URL);
+  const ImageCtor = adapters.ImageCtor ?? globalThis.Image;
+  let objectUrl;
+
+  try {
+    if (
+      typeof createObjectURL !== "function"
+      || typeof revokeObjectURL !== "function"
+      || typeof ImageCtor !== "function"
+    ) {
+      throw new Error(BROWSER_DECODE_MESSAGE);
+    }
+
+    objectUrl = createObjectURL(file);
+    const image = new ImageCtor();
+    image.src = objectUrl;
+    await waitForImageLoad(image);
+
+    if (!image.naturalWidth || !image.naturalHeight) {
+      throw new Error(BROWSER_DECODE_MESSAGE);
+    }
+
+    return {
+      source: image,
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+      cleanup: () => revokeObjectURL(objectUrl),
+    };
+  } catch {
+    if (objectUrl && typeof revokeObjectURL === "function") revokeObjectURL(objectUrl);
+    throw new Error(BROWSER_DECODE_MESSAGE);
+  }
+}
+
 export async function processImage(file, options = {}) {
   const validation = validateImageFile(file);
   if (!validation.ok) throw new Error(validation.message);
 
   const { removeBackground = false, tolerance = 28, forcePng = false } = options;
-  let bitmap;
+  let decoded;
   let sourceCanvas;
   let intermediateCanvas;
 
   try {
-    bitmap = await createImageBitmap(file);
-    sourceCanvas = createCanvas(bitmap.width, bitmap.height);
+    decoded = await decodeImageSource(file);
+    sourceCanvas = createCanvas(decoded.width, decoded.height);
     const sourceContext = sourceCanvas.getContext("2d", { willReadFrequently: true });
-    sourceContext.drawImage(bitmap, 0, 0);
+    sourceContext.drawImage(decoded.source, 0, 0);
 
-    let sourcePixels = sourceContext.getImageData(0, 0, bitmap.width, bitmap.height);
+    let sourcePixels = sourceContext.getImageData(0, 0, decoded.width, decoded.height);
     let backgroundConfidence = null;
 
     if (removeBackground && file.type === "image/png") {
-      const background = estimateCornerBackground(sourcePixels.data, bitmap.width, bitmap.height);
+      const background = estimateCornerBackground(
+        sourcePixels.data,
+        decoded.width,
+        decoded.height,
+      );
       backgroundConfidence = background.confidence;
       const cleared = removeConnectedBackground(sourcePixels, background, tolerance);
       sourcePixels.data.set(cleared.data);
@@ -236,7 +336,7 @@ export async function processImage(file, options = {}) {
     if (error instanceof Error && error.message) throw error;
     throw new Error("图片可能已损坏，无法读取。");
   } finally {
-    bitmap?.close();
+    decoded?.cleanup();
     if (intermediateCanvas && intermediateCanvas !== sourceCanvas) {
       intermediateCanvas.width = 0;
       intermediateCanvas.height = 0;
