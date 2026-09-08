@@ -15,7 +15,7 @@ GIF 或其他动态图只读取首帧，并将首帧转换为静态 PNG。
 ## 上传与校验
 
 - 文件选择器接受 `image/*`，并补充 `.png,.jpg,.jpeg,.webp,.gif,.bmp,.avif,.ico` 扩展名提示。
-- MIME 类型以 `image/` 开头的文件可以进入解码流程，但 `image/svg+xml` 明确拒绝。
+- MIME 类型匹配 PNG、JPEG、WebP、GIF、BMP、AVIF 或 ICO 的文件可以进入解码流程；SVG、HEIC/HEIF、TIFF 和 RAW 明确拒绝。
 - 某些系统上传文件时可能没有 MIME 类型；若扩展名属于上述常见位图格式，允许进入解码流程。
 - 其他文件在解码前拒绝，避免把任意文件交给图片处理流程。
 - 解码结果是最终判断标准。浏览器无法读取时显示：`当前浏览器无法读取此图片格式，请换用 PNG、JPG、WebP、GIF、BMP 或 AVIF。`
