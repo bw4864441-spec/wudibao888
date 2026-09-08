@@ -10,6 +10,7 @@ import {
   UploadSimple,
 } from "@phosphor-icons/react";
 import {
+  BROWSER_DECODE_MESSAGE,
   processImage,
   revokeProcessedImage,
   validateImageFile,
@@ -32,8 +33,16 @@ export function shouldWarnLowConfidence(removeBackground, result) {
   );
 }
 
+export function formatInputType(file) {
+  const subtype = file?.type?.split("/")[1]?.toLowerCase();
+  if (subtype === "jpeg") return "JPG";
+  if (subtype === "x-icon" || subtype === "vnd.microsoft.icon") return "ICO";
+  if (subtype) return subtype.toUpperCase();
+  return file?.name?.match(/\.([^.]+)$/)?.[1]?.toUpperCase() || "—";
+}
+
 function formatType(type) {
-  return type?.split("/")[1]?.replace("jpeg", "JPG").toUpperCase() || "—";
+  return formatInputType({ type });
 }
 
 function outputExtension(type) {
@@ -96,6 +105,7 @@ export function Prototype() {
       } catch (processingError) {
         if (sequence !== requestSequence.current) return;
         const knownMessages = [
+          BROWSER_DECODE_MESSAGE,
           "无法将这张图片压缩到 10KB 以下。",
           "无法将这张图片以 PNG 格式压缩到 10KB 以下。",
           "浏览器无法生成图片。",
@@ -124,7 +134,7 @@ export function Prototype() {
     setFile(nextFile);
     setSourceUrl(URL.createObjectURL(nextFile));
     setSourceDimensions(null);
-    setForcePng(false);
+    setForcePng(true);
     setRemoveBackground(false);
     setTolerance(28);
     setError("");
@@ -195,7 +205,7 @@ export function Prototype() {
 
       <section className={`tool-workspace ${file ? "has-file" : "is-empty"}`} aria-label="图片处理工作区">
         <input
-          accept="image/png,image/jpeg,image/webp"
+          accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.bmp,.avif,.ico"
           className="file-input"
           onChange={onInputChange}
           ref={inputRef}
@@ -222,7 +232,7 @@ export function Prototype() {
             <span className="dropzone-icon"><UploadSimple weight="bold" /></span>
             <strong>把图片拖到这里</strong>
             <span>或点击选择图片</span>
-            <small>PNG / JPG / JPEG / WebP · 单张图片</small>
+            <small>PNG / JPG / WebP / GIF / BMP / AVIF / ICO · 单张图片</small>
           </div>
         ) : (
           <>
@@ -251,7 +261,7 @@ export function Prototype() {
                 <footer className="preview-card-footer">
                   <FileMeta label="原始尺寸" value={`${sourceSize} px`} />
                   <FileMeta label="文件大小" value={formatBytes(file.size)} />
-                  <FileMeta label="格式" value={formatType(file.type)} />
+                  <FileMeta label="格式" value={formatInputType(file)} />
                 </footer>
               </article>
 

@@ -10,6 +10,7 @@ import {
 } from "./imageProcessor.js";
 import {
   formatBytes,
+  formatInputType,
   isPngFile,
   outputFilename,
   shouldWarnLowConfidence,
@@ -180,6 +181,13 @@ describe("shouldFillOutputBackground", () => {
 });
 
 describe("image tool display helpers", () => {
+  it("labels newly accepted image formats and falls back to the extension", () => {
+    expect(formatInputType({ type: "image/gif", name: "motion.gif" })).toBe("GIF");
+    expect(formatInputType({ type: "image/avif", name: "photo.avif" })).toBe("AVIF");
+    expect(formatInputType({ type: "image/x-icon", name: "favicon.ico" })).toBe("ICO");
+    expect(formatInputType({ type: "", name: "legacy.bmp" })).toBe("BMP");
+  });
+
   it("downloads a converted WebP with a PNG extension", () => {
     expect(outputFilename({ name: "产品 主图.webp" }, "image/png"))
       .toBe("产品-主图-60x60.png");
@@ -191,8 +199,9 @@ describe("image tool display helpers", () => {
   });
 
   it("shows background removal only for PNG input", () => {
-    expect(isPngFile({ type: "image/png" })).toBe(true);
-    expect(isPngFile({ type: "image/jpeg" })).toBe(false);
+    expect(isPngFile({ type: "image/png", name: "asset.png" })).toBe(true);
+    expect(isPngFile({ type: "image/gif", name: "asset.gif" })).toBe(false);
+    expect(isPngFile({ type: "", name: "asset.png" })).toBe(false);
   });
 
   it("formats result bytes for the size summary", () => {
