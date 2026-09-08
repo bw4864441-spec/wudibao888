@@ -1,7 +1,12 @@
-const asset = (file) => `/assets/icons/${file}.webp`;
-const customAsset = (file) => `/assets/custom-icons/${file}.png`;
-const kingkongAsset = (file) => `/assets/kingkong-icons/${file}.png`;
-const businessAsset = (file) => `/assets/business-icons/${file}.png`;
+export function assetPath(basePath, folder, file, extension) {
+  const normalizedBase = basePath.endsWith("/") ? basePath : `${basePath}/`;
+  return `${normalizedBase}assets/${folder}/${file}.${extension}`;
+}
+
+const asset = (file) => assetPath(import.meta.env.BASE_URL, "icons", file, "webp");
+const customAsset = (file) => assetPath(import.meta.env.BASE_URL, "custom-icons", file, "png");
+const kingkongAsset = (file) => assetPath(import.meta.env.BASE_URL, "kingkong-icons", file, "png");
+const businessAsset = (file) => assetPath(import.meta.env.BASE_URL, "business-icons", file, "png");
 
 export const categories = ["All", "BuyCrypto", "Spot", "Futures", "Earn", "CopyTrading", "Campaigns", "Security"];
 

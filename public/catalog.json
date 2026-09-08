@@ -1,0 +1,787 @@
+{
+  "icons": [
+    {
+      "id": "library-medical-coverage",
+      "name": "Medical coverage",
+      "nameZh": "医疗保障",
+      "category": "Security",
+      "filename": "library-medical-coverage.png"
+    },
+    {
+      "id": "library-contactless-card",
+      "name": "Contactless card",
+      "nameZh": "非接触卡",
+      "category": "BuyCrypto",
+      "filename": "library-contactless-card.png"
+    },
+    {
+      "id": "library-vault",
+      "name": "Vault",
+      "nameZh": "保险库",
+      "category": "Security",
+      "filename": "library-vault.png"
+    },
+    {
+      "id": "library-global-payment",
+      "name": "Global payment",
+      "nameZh": "全球支付",
+      "category": "BuyCrypto",
+      "filename": "library-global-payment.png"
+    },
+    {
+      "id": "library-asset-lock",
+      "name": "Asset lock",
+      "nameZh": "资产锁",
+      "category": "Security",
+      "filename": "library-asset-lock.png"
+    },
+    {
+      "id": "library-global-market",
+      "name": "Global market",
+      "nameZh": "全球市场",
+      "category": "Spot",
+      "filename": "library-global-market.png"
+    },
+    {
+      "id": "library-orbit-cube",
+      "name": "Orbit cube",
+      "nameZh": "轨道立方",
+      "category": "Campaigns",
+      "filename": "library-orbit-cube.png"
+    },
+    {
+      "id": "library-mobile-search",
+      "name": "Mobile search",
+      "nameZh": "移动搜索",
+      "category": "Campaigns",
+      "filename": "library-mobile-search.png"
+    },
+    {
+      "id": "library-card-wallet",
+      "name": "Card wallet",
+      "nameZh": "卡包",
+      "category": "BuyCrypto",
+      "filename": "library-card-wallet.png"
+    },
+    {
+      "id": "library-hardware-wallet",
+      "name": "Hardware wallet",
+      "nameZh": "硬件钱包",
+      "category": "Security",
+      "filename": "library-hardware-wallet.png"
+    },
+    {
+      "id": "library-ethereum-gift",
+      "name": "Ethereum gift",
+      "nameZh": "以太坊礼赠",
+      "category": "Campaigns",
+      "filename": "library-ethereum-gift.png"
+    },
+    {
+      "id": "library-global-solana",
+      "name": "Global Solana",
+      "nameZh": "全球 Solana",
+      "category": "Spot",
+      "filename": "library-global-solana.png"
+    },
+    {
+      "id": "library-discount-wallet",
+      "name": "Discount wallet",
+      "nameZh": "折扣钱包",
+      "category": "Campaigns",
+      "filename": "library-discount-wallet.png"
+    },
+    {
+      "id": "library-liquidity-link",
+      "name": "Liquidity link",
+      "nameZh": "流动性链接",
+      "category": "Earn",
+      "filename": "library-liquidity-link.png"
+    },
+    {
+      "id": "library-mining-gem",
+      "name": "Mining gem",
+      "nameZh": "挖矿宝石",
+      "category": "Earn",
+      "filename": "library-mining-gem.png"
+    },
+    {
+      "id": "library-token-pedestal",
+      "name": "Token pedestal",
+      "nameZh": "代币基座",
+      "category": "Campaigns",
+      "filename": "library-token-pedestal.png"
+    },
+    {
+      "id": "library-global-connectivity",
+      "name": "Global connectivity",
+      "nameZh": "全球连接",
+      "category": "Spot",
+      "filename": "library-global-connectivity.png"
+    },
+    {
+      "id": "library-usdt-card",
+      "name": "USDT card",
+      "nameZh": "USDT 卡",
+      "category": "BuyCrypto",
+      "filename": "library-usdt-card.png"
+    },
+    {
+      "id": "library-market-analysis",
+      "name": "Market analysis",
+      "nameZh": "市场分析",
+      "category": "Spot",
+      "filename": "library-market-analysis.png"
+    },
+    {
+      "id": "library-contactless-payment",
+      "name": "Contactless payment",
+      "nameZh": "非接触支付",
+      "category": "BuyCrypto",
+      "filename": "library-contactless-payment.png"
+    },
+    {
+      "id": "library-card-network",
+      "name": "Card network",
+      "nameZh": "卡片网络",
+      "category": "Campaigns",
+      "filename": "library-card-network.png"
+    },
+    {
+      "id": "library-liquidity-bridge",
+      "name": "Liquidity bridge",
+      "nameZh": "流动性桥",
+      "category": "Earn",
+      "filename": "library-liquidity-bridge.png"
+    },
+    {
+      "id": "library-bitcoin-health",
+      "name": "Bitcoin health",
+      "nameZh": "比特币健康",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-health.png"
+    },
+    {
+      "id": "library-market-insights",
+      "name": "Market insights",
+      "nameZh": "市场洞察",
+      "category": "Spot",
+      "filename": "library-market-insights.png"
+    },
+    {
+      "id": "library-liquidity-pool",
+      "name": "Liquidity pool",
+      "nameZh": "流动性池",
+      "category": "Earn",
+      "filename": "library-liquidity-pool.png"
+    },
+    {
+      "id": "library-network-nodes",
+      "name": "Network nodes",
+      "nameZh": "网络节点",
+      "category": "CopyTrading",
+      "filename": "library-network-nodes.png"
+    },
+    {
+      "id": "library-solana-home",
+      "name": "Solana home",
+      "nameZh": "Solana 主页",
+      "category": "Earn",
+      "filename": "library-solana-home.png"
+    },
+    {
+      "id": "library-qr-payment",
+      "name": "QR payment",
+      "nameZh": "二维码支付",
+      "category": "BuyCrypto",
+      "filename": "library-qr-payment.png"
+    },
+    {
+      "id": "library-token-launch",
+      "name": "Token launch",
+      "nameZh": "代币启动",
+      "category": "Campaigns",
+      "filename": "library-token-launch.png"
+    },
+    {
+      "id": "library-ethereum-card",
+      "name": "Ethereum card",
+      "nameZh": "以太坊卡",
+      "category": "Spot",
+      "filename": "library-ethereum-card.png"
+    },
+    {
+      "id": "library-bitcoin-property",
+      "name": "Bitcoin property",
+      "nameZh": "比特币资产",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-property.png"
+    },
+    {
+      "id": "library-secure-document",
+      "name": "Secure document",
+      "nameZh": "安全文档",
+      "category": "Security",
+      "filename": "library-secure-document.png"
+    },
+    {
+      "id": "library-target-allocation",
+      "name": "Target allocation",
+      "nameZh": "目标配置",
+      "category": "Campaigns",
+      "filename": "library-target-allocation.png"
+    },
+    {
+      "id": "library-usdt-fuel",
+      "name": "USDT fuel",
+      "nameZh": "USDT 燃料",
+      "category": "BuyCrypto",
+      "filename": "library-usdt-fuel.png"
+    },
+    {
+      "id": "library-reward-card",
+      "name": "Reward card",
+      "nameZh": "奖励卡",
+      "category": "Campaigns",
+      "filename": "library-reward-card.png"
+    },
+    {
+      "id": "library-savings-jar",
+      "name": "Savings jar",
+      "nameZh": "储蓄罐",
+      "category": "Earn",
+      "filename": "library-savings-jar.png"
+    },
+    {
+      "id": "library-token-link",
+      "name": "Token link",
+      "nameZh": "代币链接",
+      "category": "CopyTrading",
+      "filename": "library-token-link.png"
+    },
+    {
+      "id": "library-market-lounge",
+      "name": "Market lounge",
+      "nameZh": "市场休闲",
+      "category": "Campaigns",
+      "filename": "library-market-lounge.png"
+    },
+    {
+      "id": "library-market-bars",
+      "name": "Market bars",
+      "nameZh": "市场柱状",
+      "category": "Spot",
+      "filename": "library-market-bars.png"
+    },
+    {
+      "id": "library-trading-fee",
+      "name": "Trading fee",
+      "nameZh": "交易费率",
+      "category": "Campaigns",
+      "filename": "library-trading-fee.png"
+    },
+    {
+      "id": "library-bitcoin-wallet",
+      "name": "Bitcoin wallet",
+      "nameZh": "比特币钱包",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-wallet.png"
+    },
+    {
+      "id": "library-rating-message",
+      "name": "Rating message",
+      "nameZh": "评分消息",
+      "category": "Campaigns",
+      "filename": "library-rating-message.png"
+    },
+    {
+      "id": "library-user-refresh",
+      "name": "User refresh",
+      "nameZh": "用户刷新",
+      "category": "CopyTrading",
+      "filename": "library-user-refresh.png"
+    },
+    {
+      "id": "library-security-keypad",
+      "name": "Security keypad",
+      "nameZh": "安全键盘",
+      "category": "Security",
+      "filename": "library-security-keypad.png"
+    },
+    {
+      "id": "library-market-search",
+      "name": "Market search",
+      "nameZh": "市场搜索",
+      "category": "Spot",
+      "filename": "library-market-search.png"
+    },
+    {
+      "id": "library-message-panel",
+      "name": "Message panel",
+      "nameZh": "消息面板",
+      "category": "Campaigns",
+      "filename": "library-message-panel.png"
+    },
+    {
+      "id": "library-user-profile",
+      "name": "User profile",
+      "nameZh": "用户资料",
+      "category": "CopyTrading",
+      "filename": "library-user-profile.png"
+    },
+    {
+      "id": "library-cloud-security",
+      "name": "Cloud security",
+      "nameZh": "云端安全",
+      "category": "Security",
+      "filename": "library-cloud-security.png"
+    },
+    {
+      "id": "library-market-bars-2",
+      "name": "Market bars",
+      "nameZh": "市场柱状",
+      "category": "Spot",
+      "filename": "library-market-bars-2.png"
+    },
+    {
+      "id": "library-dollar-support",
+      "name": "Dollar support",
+      "nameZh": "美元支持",
+      "category": "BuyCrypto",
+      "filename": "library-dollar-support.png"
+    },
+    {
+      "id": "library-secure-lock",
+      "name": "Secure lock",
+      "nameZh": "安全锁",
+      "category": "Security",
+      "filename": "library-secure-lock.png"
+    },
+    {
+      "id": "library-deposit-arrow",
+      "name": "Deposit arrow",
+      "nameZh": "充值箭头",
+      "category": "BuyCrypto",
+      "filename": "library-deposit-arrow.png"
+    },
+    {
+      "id": "library-bitcoin-coin",
+      "name": "Bitcoin coin",
+      "nameZh": "比特币币种",
+      "category": "BuyCrypto",
+      "filename": "library-bitcoin-coin.png"
+    },
+    {
+      "id": "library-global-payment-2",
+      "name": "Global payment",
+      "nameZh": "全球支付",
+      "category": "BuyCrypto",
+      "filename": "library-global-payment-2.png"
+    },
+    {
+      "id": "library-send-token",
+      "name": "Send token",
+      "nameZh": "发送代币",
+      "category": "BuyCrypto",
+      "filename": "library-send-token.png"
+    },
+    {
+      "id": "library-currency-exchange",
+      "name": "Currency exchange",
+      "nameZh": "货币兑换",
+      "category": "Spot",
+      "filename": "library-currency-exchange.png"
+    },
+    {
+      "id": "library-server-cluster",
+      "name": "Server cluster",
+      "nameZh": "服务器集群",
+      "category": "Security",
+      "filename": "library-server-cluster.png"
+    },
+    {
+      "id": "library-portfolio-display",
+      "name": "Portfolio display",
+      "nameZh": "资产展示",
+      "category": "Campaigns",
+      "filename": "library-portfolio-display.png"
+    },
+    {
+      "id": "library-ai-asset",
+      "name": "AI asset",
+      "nameZh": "AI 资产",
+      "category": "Campaigns",
+      "filename": "library-ai-asset.png"
+    },
+    {
+      "id": "library-gift-box",
+      "name": "Gift box",
+      "nameZh": "礼盒",
+      "category": "Campaigns",
+      "filename": "library-gift-box.png"
+    },
+    {
+      "id": "shared-library-knowledge",
+      "name": "Knowledge library",
+      "nameZh": "知识库",
+      "category": "Campaigns",
+      "src": "assets/user-icons/library-knowledge.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-asset-deposit",
+      "name": "Asset deposit",
+      "nameZh": "资产充值",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/asset-deposit.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-campaign-gift",
+      "name": "Campaign gift",
+      "nameZh": "活动礼盒",
+      "category": "Campaigns",
+      "src": "assets/user-icons/campaign-gift.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-dollar-wallet",
+      "name": "Dollar wallet",
+      "nameZh": "美元钱包",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/dollar-wallet.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-verified-security",
+      "name": "Verified security",
+      "nameZh": "安全验证",
+      "category": "Security",
+      "src": "assets/user-icons/verified-security.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-launch-rocket",
+      "name": "Launch rocket",
+      "nameZh": "启动火箭",
+      "category": "Campaigns",
+      "src": "assets/user-icons/launch-rocket.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-trade-refresh",
+      "name": "Trade refresh",
+      "nameZh": "交易刷新",
+      "category": "CopyTrading",
+      "src": "assets/user-icons/trade-refresh.png",
+      "tags": [
+        "CopyTrading",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-global-market",
+      "name": "Global market",
+      "nameZh": "全球市场",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/global-market.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-nft-asset",
+      "name": "NFT asset",
+      "nameZh": "NFT 资产",
+      "category": "Campaigns",
+      "src": "assets/user-icons/nft-asset.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-market-growth-chart",
+      "name": "Market growth",
+      "nameZh": "市场增长",
+      "category": "Spot",
+      "src": "assets/user-icons/market-growth-chart.png",
+      "tags": [
+        "Spot",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-shield-lock",
+      "name": "Shield lock",
+      "nameZh": "安全护盾",
+      "category": "Security",
+      "src": "assets/user-icons/shield-lock.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-asset-inspection",
+      "name": "Asset inspection",
+      "nameZh": "资产检查",
+      "category": "Security",
+      "src": "assets/user-icons/asset-inspection.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-dollar-reserves",
+      "name": "Dollar reserves",
+      "nameZh": "美元储备",
+      "category": "Earn",
+      "src": "assets/user-icons/dollar-reserves.png",
+      "tags": [
+        "Earn",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-asset-case",
+      "name": "Asset case",
+      "nameZh": "资产收纳",
+      "category": "Campaigns",
+      "src": "assets/user-icons/asset-case.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-growth-deposit",
+      "name": "Growth deposit",
+      "nameZh": "增长存入",
+      "category": "Earn",
+      "src": "assets/user-icons/growth-deposit.png",
+      "tags": [
+        "Earn",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-wallet-lock",
+      "name": "Wallet lock",
+      "nameZh": "钱包安全",
+      "category": "Security",
+      "src": "assets/user-icons/wallet-lock.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-content-editor",
+      "name": "Content editor",
+      "nameZh": "内容编辑",
+      "category": "Campaigns",
+      "src": "assets/user-icons/content-editor.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-achievement-certificate",
+      "name": "Achievement certificate",
+      "nameZh": "成就证书",
+      "category": "Campaigns",
+      "src": "assets/user-icons/achievement-certificate.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-market-analysis",
+      "name": "Market analysis",
+      "nameZh": "市场分析",
+      "category": "Spot",
+      "src": "assets/user-icons/market-analysis.png",
+      "tags": [
+        "Spot",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-trade-calculator",
+      "name": "Trade calculator",
+      "nameZh": "交易计算器",
+      "category": "Spot",
+      "src": "assets/user-icons/trade-calculator.png",
+      "tags": [
+        "Spot",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-mobile-payment",
+      "name": "Mobile payment",
+      "nameZh": "移动支付",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/mobile-payment.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-asset-search",
+      "name": "Asset search",
+      "nameZh": "资产搜索",
+      "category": "Spot",
+      "src": "assets/user-icons/asset-search.png",
+      "tags": [
+        "Spot",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-global-assets",
+      "name": "Global assets",
+      "nameZh": "全球资产",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/global-assets.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-yield-rate",
+      "name": "Yield rate",
+      "nameZh": "收益率",
+      "category": "Earn",
+      "src": "assets/user-icons/yield-rate.png",
+      "tags": [
+        "Earn",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-campaign-coupons",
+      "name": "Campaign coupons",
+      "nameZh": "活动券",
+      "category": "Campaigns",
+      "src": "assets/user-icons/campaign-coupons.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-discount-offer",
+      "name": "Discount offer",
+      "nameZh": "折扣优惠",
+      "category": "Campaigns",
+      "src": "assets/user-icons/discount-offer.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-discount-tag",
+      "name": "Discount tag",
+      "nameZh": "折扣标签",
+      "category": "Campaigns",
+      "src": "assets/user-icons/discount-tag.png",
+      "tags": [
+        "Campaigns",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-trade-target",
+      "name": "Trade target",
+      "nameZh": "交易目标",
+      "category": "CopyTrading",
+      "src": "assets/user-icons/trade-target.png",
+      "tags": [
+        "CopyTrading",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-market-location",
+      "name": "Market location",
+      "nameZh": "市场定位",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/market-location.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-liquidity-pool",
+      "name": "Liquidity pool",
+      "nameZh": "流动性池",
+      "category": "Earn",
+      "src": "assets/user-icons/liquidity-pool.png",
+      "tags": [
+        "Earn",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-global-currencies",
+      "name": "Global currencies",
+      "nameZh": "全球币种",
+      "category": "BuyCrypto",
+      "src": "assets/user-icons/global-currencies.png",
+      "tags": [
+        "BuyCrypto",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-card-settlement",
+      "name": "Card settlement",
+      "nameZh": "卡片结算",
+      "category": "Security",
+      "src": "assets/user-icons/card-settlement.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    },
+    {
+      "id": "shared-card-settings",
+      "name": "Card settings",
+      "nameZh": "卡片设置",
+      "category": "Security",
+      "src": "assets/user-icons/card-settings.png",
+      "tags": [
+        "Security",
+        "shared"
+      ]
+    }
+  ]
+}
