@@ -26,11 +26,18 @@ describe("GitHub shared catalog commit", () => {
       catalog: { icons: [] },
       entries: [entry],
       fetchImpl,
+      now: () => "2026-08-24T08:00:00.000Z",
     })).resolves.toEqual({ commitSha: "next-commit" });
 
     expect(JSON.parse(fetchImpl.mock.calls[4][1].body).tree).toEqual(expect.arrayContaining([
       expect.objectContaining({ path: "public/assets/user-icons/entry.png", sha: "image-blob" }),
       expect.objectContaining({ path: "public/catalog.json", sha: "catalog-blob" }),
     ]));
+
+    const catalogBlob = JSON.parse(fetchImpl.mock.calls[3][1].body);
+    expect(JSON.parse(Buffer.from(catalogBlob.content, "base64").toString("utf8"))).toEqual({
+      icons: [],
+      updatedAt: "2026-08-24T08:00:00.000Z",
+    });
   });
 });

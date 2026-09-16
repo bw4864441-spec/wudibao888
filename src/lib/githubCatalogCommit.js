@@ -23,7 +23,17 @@ async function request(fetchImpl, path, token, options = {}) {
   return payload;
 }
 
-export async function createSharedCatalogCommit({ token, catalog, entries, fetchImpl = fetch }) {
+export async function createSharedCatalogCommit({
+  token,
+  catalog,
+  entries,
+  fetchImpl = fetch,
+  now = () => new Date().toISOString(),
+}) {
+  const catalogWithTimestamp = {
+    ...catalog,
+    updatedAt: catalog.updatedAt || now(),
+  };
   const reference = await request(fetchImpl, `/repos/${repository}/git/ref/heads/main`, token);
   const currentCommit = await request(fetchImpl, `/repos/${repository}/git/commits/${reference.object.sha}`, token);
 
@@ -33,7 +43,7 @@ export async function createSharedCatalogCommit({ token, catalog, entries, fetch
   })));
   const catalogBlob = await request(fetchImpl, `/repos/${repository}/git/blobs`, token, {
     method: "POST",
-    body: JSON.stringify({ content: toBase64(`${JSON.stringify(catalog, null, 2)}\n`), encoding: "base64" }),
+    body: JSON.stringify({ content: toBase64(`${JSON.stringify(catalogWithTimestamp, null, 2)}\n`), encoding: "base64" }),
   });
 
   const tree = await request(fetchImpl, `/repos/${repository}/git/trees`, token, {
